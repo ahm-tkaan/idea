@@ -108,7 +108,7 @@ class _DersIcerikSayfasiState extends State<DersIcerikSayfasi> {
 
     final answerContent = [
       Content.text(
-        '${widget.sinif}, ${widget.ders} dersi ${widget.unite} ünitesi ${widget.konu} konusuna dair verilen sorunun cevabını hazırlar mısın?',
+        '${widget.sinif}, ${widget.ders} dersi ${widget.unite} ünitesi ${widget.konu} konusuna dair verilen sorunun cevabını (Doğru cevap A seçeneğiydi ve şu yüzden) hazırlar mısın?',
       ),
     ];
 
@@ -215,7 +215,7 @@ class _DersIcerikSayfasiState extends State<DersIcerikSayfasi> {
                         SizedBox(height: 10),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.greenAccent,
+                            backgroundColor: Colors.teal,
                           ),
                           onPressed: isGeneratingAnswer ? null : generateAnswer,
                           child: isGeneratingAnswer
@@ -242,7 +242,7 @@ class _DersIcerikSayfasiState extends State<DersIcerikSayfasi> {
             SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightBlueAccent,
+                backgroundColor: Colors.teal,
                 padding: EdgeInsets.symmetric(vertical: 15),
                 textStyle: TextStyle(fontSize: 18),
               ),
