@@ -38,174 +38,186 @@ class _SecimSayfasiState extends State<SecimSayfasi> {
           image: DecorationImage(
             image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.3),
+              BlendMode.darken,
+            ),
           ),
         ),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Sınıf Seç'),
-                    value: secilenSinif,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        secilenSinif = newValue!;
-                        secilenDers = null;
-                        secilenUnite = null;
-                      });
-                    },
-                    items: siniflar.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Ders Seç'),
-                    value: secilenDers,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        secilenDers = newValue!;
-                        secilenUnite = null;
-                      });
-                    },
-                    items: secilenSinif != null
-                        ? dersler[secilenSinif]!
-                            .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList()
-                        : null,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Ünite Seç'),
-                    value: secilenUnite,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        secilenUnite = newValue!;
-                      });
-                    },
-                    items: secilenSinif != null && secilenDers != null
-                        ? uniteler[secilenSinif]![secilenDers]!
-                            .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList()
-                        : null,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Konu Seç'),
-                    value: secilenKonu,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        secilenKonu = newValue!;
-                      });
-                    },
-                    items: secilenSinif != null &&
-                            secilenDers != null &&
-                            secilenUnite != null
-                        ? konular[secilenSinif]![secilenDers]![secilenUnite]!
-                            .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList()
-                        : null,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Card(
-                child: Container(
-                  height: 200,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Expanded(
-                      // Expanded eklendi
-                      child: TextField(
-                        controller: _notlarController,
-                        decoration: InputDecoration(
-                          labelText: 'Notlar',
-                          hintText: 'Ek bilgi veya not girin (isteğe bağlı)',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                        ),
-                        maxLines: null, // Satır sınırını kaldır
-                        expands:
-                            true, // TextField'ın dikey olarak genişlemesini sağla
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                  textStyle: TextStyle(fontSize: 18),
-                ),
-                onPressed: () {
-                  if (secilenSinif != null &&
-                      secilenDers != null &&
-                      secilenUnite != null &&
-                      secilenKonu != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DersIcerikSayfasi(
-                          sinif: secilenSinif!,
-                          ders: secilenDers!,
-                          unite: secilenUnite!,
-                          konu: secilenKonu!,
-                          notlar: _notlarController.text,
-                        ),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Lütfen tüm alanları doldurun.'),
-                      ),
-                    );
-
-                  }
-
-
+              _buildDropdownCard(
+                'Sınıf Seç',
+                secilenSinif,
+                siniflar,
+                    (String? newValue) {
+                  setState(() {
+                    secilenSinif = newValue;
+                    secilenDers = null;
+                    secilenUnite = null;
+                    secilenKonu = null;
+                  });
                 },
-                child: Text('Devam'),
               ),
+              SizedBox(height: 20),
+              _buildDropdownCard(
+                'Ders Seç',
+                secilenDers,
+                secilenSinif != null ? dersler[secilenSinif] : null,
+                    (String? newValue) {
+                  setState(() {
+                    secilenDers = newValue;
+                    secilenUnite = null;
+                    secilenKonu = null;
+                  });
+                },
+              ),
+              SizedBox(height: 20),
+              _buildDropdownCard(
+                'Ünite Seç',
+                secilenUnite,
+                (secilenSinif != null && secilenDers != null)
+                    ? uniteler[secilenSinif]![secilenDers]
+                    : null,
+                    (String? newValue) {
+                  setState(() {
+                    secilenUnite = newValue;
+                    secilenKonu = null;
+                  });
+                },
+              ),
+              SizedBox(height: 20),
+              _buildDropdownCard(
+                'Konu Seç',
+                secilenKonu,
+                (secilenSinif != null &&
+                    secilenDers != null &&
+                    secilenUnite != null)
+                    ? konular[secilenSinif]![secilenDers]![secilenUnite]
+                    : null,
+                    (String? newValue) {
+                  setState(() {
+                    secilenKonu = newValue;
+                  });
+                },
+              ),
+              SizedBox(height: 20),
+              _buildNotesCard(),
+              SizedBox(height: 30),
+              _buildContinueButton(context),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildDropdownCard(
+      String label,
+      String? selectedValue,
+      List<String>? items,
+      ValueChanged<String?> onChanged,
+      ) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            labelText: label,
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          value: selectedValue,
+          onChanged: onChanged,
+          items: items != null
+              ? items.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList()
+              : null,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNotesCard() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: SizedBox(
+        height: 200,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: TextField(
+            controller: _notlarController,
+            decoration: InputDecoration(
+              labelText: 'Notlar',
+              hintText: 'Ek bilgi veya not girin (isteğe bağlı)',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            textAlignVertical: TextAlignVertical.top, // hintText'i ve labelText'i yukarı hizalar
+            maxLines: null,
+            expands: true,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContinueButton(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: Colors.teal,
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        minimumSize: Size(double.infinity, 50),
+      ),
+      onPressed: () {
+        if (secilenSinif != null &&
+            secilenDers != null &&
+            secilenUnite != null &&
+            secilenKonu != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DersIcerikSayfasi(
+                sinif: secilenSinif!,
+                ders: secilenDers!,
+                unite: secilenUnite!,
+                konu: secilenKonu!,
+                notlar: _notlarController.text,
+              ),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Lütfen tüm alanları doldurun.'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
+      },
+      child: Text(
+        'Devam',
+        style: TextStyle(fontSize: 18, color: Colors.white),
       ),
     );
   }
