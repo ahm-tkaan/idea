@@ -1,16 +1,58 @@
-# untitled
+# idea
 
-A new Flutter project.
+Bu Flutter uygulaması, öğrencilere ders içeriklerini öğrenme ve sınavlara hazırlanma sürecinde yardımcı olmayı amaçlamaktadır. Kullanıcılar, ders içeriklerine ulaşabilir, konu anlatımlarını inceleyebilir, üretilen soruları çözebilir ve doğru cevapları görüntüleyebilir.
 
-## Getting Started
+## Özellikler
 
-This project is a starting point for a Flutter application.
+- **Konu Anlatımı**: Seçilen ders ve konu ile ilgili ayrıntılı açıklamalar sağlanır.
+- **Soru Üretme**: Konuya özgü 5 seçenekli sorular otomatik olarak üretilir.
+- **Doğru Cevap Gösterimi**: Üretilen soruların cevapları detaylı bir açıklama ile gösterilir.
+- **Kullanıcı Dostu Arayüz**: Uygulama, kullanıcı deneyimini geliştiren şık ve sade bir arayüze sahiptir.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Gereksinimler
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter SDK
+- Google Generative AI API anahtarı (API entegrasyonu için gereklidir)
+
+## Kurulum
+
+1. Bu projeyi klonlayın:
+
+    ```bash
+    git clone https://github.com/ahm-tkaan/egitim-uygulamasi.git
+    cd egitim-uygulamasi
+    ```
+
+2. Gerekli bağımlılıkları yükleyin:
+
+    ```bash
+    flutter pub get
+    ```
+
+3. `google_generative_ai` paketine Google Generative AI API anahtarınızı ekleyin:
+
+    `DersIcerikSayfasi` widget'ındaki `apiKey` alanını kendi anahtarınızla güncelleyin.
+
+4. Uygulamayı çalıştırın:
+
+    ```bash
+    flutter run
+    ```
+
+## Kullanılan Paketler
+
+- `flutter/material.dart`: Flutter'ın temel UI bileşenlerini sağlar.
+- `google_generative_ai`: Google Generative AI API ile metin ve soru üretimini destekler.
+
+## Kullanım
+
+1. Uygulamayı açın ve sınıf, ders ve ünite seçimini yaparak konuya göre içeriği görüntüleyin.
+2. **Konu Anlatımı** butonuna tıklayarak seçilen konunun açıklamasını görün.
+3. **Bu Konu Hakkında Soru Üret** butonu ile konuya dair sorular oluşturun.
+4. **Cevabı Göster** butonuna tıklayarak üretilen soruların doğru cevabını öğrenin.
+
+## Katkıda Bulunma
+
+Bu projeye katkıda bulunmak isterseniz, lütfen [Pull Request](https://github.com/ahm-tkaan/idea/pulls) gönderin veya bir konu açın.
+
