@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget {
                 width: 200,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.teal,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Center(
