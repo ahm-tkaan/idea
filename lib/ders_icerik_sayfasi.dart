@@ -31,7 +31,7 @@ class _DersIcerikSayfasiState extends State<DersIcerikSayfasi> {
 
   final model = GenerativeModel(
     model: "gemini-pro",
-    apiKey: "AIzaSyDMghJD1XPOuhMerghmJeY0nbe1rEtJEGo",
+    apiKey: "API_GİRİNİZ",
   );
 
   @override
